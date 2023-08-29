@@ -1,0 +1,68 @@
+include <iostream>
+
+class Neurona {
+private:
+    int id;
+    double voltaje;
+    int posX;
+    int posY;
+    int red;
+    int green;
+    int blue;
+
+public:
+    Neurona(int _id, double _voltaje, int _posX, int _posY, int _red, int _green, int _blue)
+        : id(_id), voltaje(_voltaje), posX(_posX), posY(_posY), red(_red), green(_green), blue(_blue) {}
+
+    void print() {
+        std::cout << "ID: " << id << "\n";
+        std::cout << "Voltaje: " << voltaje << "\n";
+        std::cout << "Posición X: " << posX << "\n";
+        std::cout << "Posición Y: " << posY << "\n";
+        std::cout << "Color (RGB): " << red << ", " << green << ", " << blue << "\n";
+    }
+};
+
+class Nodo {
+public:
+    Neurona neurona;
+    Nodo* siguiente;
+
+    Nodo(const Neurona& _neurona) : neurona(_neurona), siguiente(nullptr) {}
+};
+
+class Lista {
+private:
+    Nodo* primero;
+
+public:
+    Lista() : primero(nullptr) {}
+
+    void agregarInicio(const Neurona& neurona) {
+        Nodo* nuevoNodo = new Nodo(neurona);
+        nuevoNodo->siguiente = primero;
+        primero = nuevoNodo;
+    }
+
+    void agregarFinal(const Neurona& neurona) {
+        Nodo* nuevoNodo = new Nodo(neurona);
+        if (!primero) {
+            primero = nuevoNodo;
+        } else {
+            Nodo* actual = primero;
+            while (actual->siguiente) {
+                actual = actual->siguiente;
+            }
+            actual->siguiente = nuevoNodo;
+        }
+    }
+
+    void mostrar() {
+        Nodo* actual = primero;
+        while (actual) {
+            actual->neurona.print();
+            std::cout << "\n";
+            actual = actual->siguiente;
+        }
+    }
+};
